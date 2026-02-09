@@ -157,11 +157,36 @@ const reqBatchRemove=async (deleteArr)=>{
         throw error
     }
 }
+// 分配角色给用户
+const doAssisgRole = async (userId, roleIdList) => {
+    const conn = await connection
+    try {
+        // 开启事务
+        await conn.beginTransaction()
+
+        // 1. 删除用户原有角色
+        await conn.query('DELETE FROM user_role WHERE user_id = ?', [userId])
+
+        // 2. 重新分配角色（批量 INSERT）
+        if (roleIdList && roleIdList.length > 0) {
+            const values = roleIdList.map(roleId => `(${userId}, ${roleId})`).join(', ')
+            await conn.query(`INSERT INTO user_role(user_id, role_id) VALUES ${values}`)
+        }
+
+        // 提交事务
+        await conn.commit()
+    } catch (error) {
+        // 发生错误时回滚
+        await conn.rollback()
+        throw error
+    }
+}
 module.exports={
     reqAllUser,
     reqSaveUser,
     reqUpdateUser,
     reqToAssign,
     reqDeleteByUserId,
-    reqBatchRemove
+    reqBatchRemove,
+    doAssisgRole
 }

@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const {verifyToken} =require('../../utils/verifyToken')
-const {reqAllUser,reqSaveUser,reqUpdateUser,reqToAssign,reqDeleteByUserId,reqBatchRemove}=require('../../Mapper/acl/usserMapper')
+const {reqAllUser,reqSaveUser,reqUpdateUser,reqToAssign,reqDeleteByUserId,reqBatchRemove,doAssisgRole}=require('../../Mapper/acl/usserMapper')
 //获取全部角色，当前账号拥有的角色接口
-/**
- * TODO待完成
- * **/
+
 router.get('/admin/acl/user/toAssign/:userId',verifyToken,async (req,res,next)=>{
     try {
         const userId=req.params.userId
@@ -73,6 +71,17 @@ router.delete('/admin/acl/user/batchRemove',verifyToken,async (req,res,next)=>{
     try {
         const deleteArr=req.body
         await reqBatchRemove(deleteArr)
+        res.success(null)
+    }catch (err){
+        console.log(err)
+        res.error(500, '服务器内部错误，请稍后再试');
+    }
+})
+// 已有用户分配角色接口
+router.post('/admin/acl/user/doAssignRole',verifyToken,async (req,res,next)=>{
+    try {
+        const {userId,roleIdList}=req.body
+        await doAssisgRole(userId,roleIdList)
         res.success(null)
     }catch (err){
         console.log(err)
