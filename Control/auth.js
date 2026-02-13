@@ -17,6 +17,7 @@ router.post('/admin/acl/index/login', async (req, res, next) => {
       return res.error(400, '错误：请输入用户名和密码');
     }
     const md5Password = md5(password);
+    console.log(md5Password)
     // 3. 传入账号密码，调用登录方法
     const result = await userLogin(username, md5Password);
     // 4. 判断登录结果
