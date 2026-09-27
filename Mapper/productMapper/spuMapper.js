@@ -55,7 +55,7 @@ const getSpuSaleAttrList=async (spuId)=>{
         const result=[]
         // const spuSaleAttrValueList=[]
         for(let item of row){
-            const [row1]=await connection.query("select sale_attr_value_id as id,sale_attr_value_name as saleAttrValueName,sale_attr_id as baseSaleAttrId, spu_id as spuId from sale_attr_value where spu_id=?and sale_attr_id=?",[item.spuId,item.baseSaleAttrId])
+            const [row1]=await connection.query("select sale_attr_value_id as id,sale_attr_value_name as saleAttrValueName,sale_attr_id as baseSaleAttrId, spu_id as spuId from sale_attr_value where spu_id=? and sale_attr_id=?",[item.spuId,item.baseSaleAttrId])
             console.log(item)
             item.spuSaleAttrValueList=row1
             result.push(item)
