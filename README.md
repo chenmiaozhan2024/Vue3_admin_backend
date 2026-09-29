@@ -4,7 +4,7 @@
 >
 ## 前端源码：<https://github.com/chenmiaozhan2024/Vue3_admin_template>
 
-## B站视频
+## 个人B站
 
 ![image.png](https://tc-cdn.processon.com/po/699d4cae07ad417580aade06-699d5426df7d4d1e4caebc86)
 
